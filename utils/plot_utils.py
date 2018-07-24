@@ -58,3 +58,17 @@ def plot_roc_curve(y_test, y_pred_prob):
 	plt.grid(True)
 	plt.legend(loc="lower right")
 	plt.show()
+
+def plot_feature_importances(X, importances, top=20):
+	feature_importance = 100.0 * (importances / importances.max())
+	sorted_idx = np.argsort(feature_importance)
+	feature_names = list(X.columns.values)
+	feature_names_sort = [feature_names[indice] for indice in sorted_idx]
+	pos = np.arange(sorted_idx.shape[0]) + .5
+
+	# plot the result
+	plt.figure(figsize=(12, 10))
+	plt.barh(pos[-top:], feature_importance[sorted_idx][-top:], align='center')
+	plt.yticks(pos[-top:], feature_names_sort[-top:])
+	plt.title('Relative Feature Importance (Top '+str(top) + ')', fontsize=top)
+	plt.show()
